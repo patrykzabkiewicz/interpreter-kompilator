@@ -1,0 +1,980 @@
+Gramatyka
+
+    0 $accept: function $end
+
+    1 function: function stmt
+    2         | /* pusta */
+
+    3 stmt: ';'
+    4     | expr ';'
+    5     | PRINT expr ';'
+    6     | VARIABLE '=' expr ';'
+    7     | WHILE '(' expr ')' stmt
+    8     | IF '(' expr ')' stmt
+    9     | IF '(' expr ')' stmt ELSE stmt
+   10     | '{' stmt_list '}'
+
+   11 stmt_list: stmt
+   12          | stmt_list stmt
+
+   13 expr: INTEGER
+   14     | VARIABLE
+   15     | '-' expr
+   16     | expr '+' expr
+   17     | expr '-' expr
+   18     | expr '*' expr
+   19     | expr '^' expr
+   20     | expr '/' expr
+   21     | expr '<' expr
+   22     | expr '>' expr
+   23     | expr GE expr
+   24     | expr LE expr
+   25     | expr NE expr
+   26     | expr EQ expr
+   27     | '(' expr ')'
+
+
+Symbole terminalne i reguły, w których występują
+
+$end (0) 0
+'(' (40) 7 8 9 27
+')' (41) 7 8 9 27
+'*' (42) 18
+'+' (43) 16
+'-' (45) 15 17
+'/' (47) 20
+';' (59) 3 4 5 6
+'<' (60) 21
+'=' (61) 6
+'>' (62) 22
+'^' (94) 19
+'{' (123) 10
+'}' (125) 10
+error (256)
+INTEGER (258) 13
+VARIABLE (259) 6 14
+WHILE (260) 7
+IF (261) 8 9
+PRINT (262) 5
+IFX (263)
+ELSE (264) 9
+NE (265) 25
+EQ (266) 26
+LE (267) 24
+GE (268) 23
+UMINUS (269)
+
+
+Symbole nieterminalne i reguły, w których występują
+
+$accept (28)
+    po lewej: 0
+function (29)
+    po lewej: 1 2, po prawej: 0 1
+stmt (30)
+    po lewej: 3 4 5 6 7 8 9 10, po prawej: 1 7 8 9 11 12
+stmt_list (31)
+    po lewej: 11 12, po prawej: 10 12
+expr (32)
+    po lewej: 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27, po prawej:
+    4 5 6 7 8 9 15 16 17 18 19 20 21 22 23 24 25 26 27
+
+
+State 0
+
+    0 $accept: . function $end
+
+    $domyślnie  redukcja przy użyciu reguły 2 (function)
+
+    function  przejście do stanu 1
+
+
+State 1
+
+    0 $accept: function . $end
+    1 function: function . stmt
+
+    $end      przesunięcie, i przejście do stanu 2
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 4
+    WHILE     przesunięcie, i przejście do stanu 5
+    IF        przesunięcie, i przejście do stanu 6
+    PRINT     przesunięcie, i przejście do stanu 7
+    '-'       przesunięcie, i przejście do stanu 8
+    ';'       przesunięcie, i przejście do stanu 9
+    '('       przesunięcie, i przejście do stanu 10
+    '{'       przesunięcie, i przejście do stanu 11
+
+    stmt  przejście do stanu 12
+    expr  przejście do stanu 13
+
+
+State 2
+
+    0 $accept: function $end .
+
+    $domyślnie  akceptowanie
+
+
+State 3
+
+   13 expr: INTEGER .
+
+    $domyślnie  redukcja przy użyciu reguły 13 (expr)
+
+
+State 4
+
+    6 stmt: VARIABLE . '=' expr ';'
+   14 expr: VARIABLE .
+
+    '='  przesunięcie, i przejście do stanu 14
+
+    $domyślnie  redukcja przy użyciu reguły 14 (expr)
+
+
+State 5
+
+    7 stmt: WHILE . '(' expr ')' stmt
+
+    '('  przesunięcie, i przejście do stanu 15
+
+
+State 6
+
+    8 stmt: IF . '(' expr ')' stmt
+    9     | IF . '(' expr ')' stmt ELSE stmt
+
+    '('  przesunięcie, i przejście do stanu 16
+
+
+State 7
+
+    5 stmt: PRINT . expr ';'
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 17
+    '-'       przesunięcie, i przejście do stanu 8
+    '('       przesunięcie, i przejście do stanu 10
+
+    expr  przejście do stanu 18
+
+
+State 8
+
+   15 expr: '-' . expr
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 17
+    '-'       przesunięcie, i przejście do stanu 8
+    '('       przesunięcie, i przejście do stanu 10
+
+    expr  przejście do stanu 19
+
+
+State 9
+
+    3 stmt: ';' .
+
+    $domyślnie  redukcja przy użyciu reguły 3 (stmt)
+
+
+State 10
+
+   27 expr: '(' . expr ')'
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 17
+    '-'       przesunięcie, i przejście do stanu 8
+    '('       przesunięcie, i przejście do stanu 10
+
+    expr  przejście do stanu 20
+
+
+State 11
+
+   10 stmt: '{' . stmt_list '}'
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 4
+    WHILE     przesunięcie, i przejście do stanu 5
+    IF        przesunięcie, i przejście do stanu 6
+    PRINT     przesunięcie, i przejście do stanu 7
+    '-'       przesunięcie, i przejście do stanu 8
+    ';'       przesunięcie, i przejście do stanu 9
+    '('       przesunięcie, i przejście do stanu 10
+    '{'       przesunięcie, i przejście do stanu 11
+
+    stmt       przejście do stanu 21
+    stmt_list  przejście do stanu 22
+    expr       przejście do stanu 13
+
+
+State 12
+
+    1 function: function stmt .
+
+    $domyślnie  redukcja przy użyciu reguły 1 (function)
+
+
+State 13
+
+    4 stmt: expr . ';'
+   16 expr: expr . '+' expr
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   19     | expr . '^' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    '>'  przesunięcie, i przejście do stanu 23
+    '<'  przesunięcie, i przejście do stanu 24
+    NE   przesunięcie, i przejście do stanu 25
+    EQ   przesunięcie, i przejście do stanu 26
+    LE   przesunięcie, i przejście do stanu 27
+    GE   przesunięcie, i przejście do stanu 28
+    '+'  przesunięcie, i przejście do stanu 29
+    '-'  przesunięcie, i przejście do stanu 30
+    '*'  przesunięcie, i przejście do stanu 31
+    '/'  przesunięcie, i przejście do stanu 32
+    '^'  przesunięcie, i przejście do stanu 33
+    ';'  przesunięcie, i przejście do stanu 34
+
+
+State 14
+
+    6 stmt: VARIABLE '=' . expr ';'
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 17
+    '-'       przesunięcie, i przejście do stanu 8
+    '('       przesunięcie, i przejście do stanu 10
+
+    expr  przejście do stanu 35
+
+
+State 15
+
+    7 stmt: WHILE '(' . expr ')' stmt
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 17
+    '-'       przesunięcie, i przejście do stanu 8
+    '('       przesunięcie, i przejście do stanu 10
+
+    expr  przejście do stanu 36
+
+
+State 16
+
+    8 stmt: IF '(' . expr ')' stmt
+    9     | IF '(' . expr ')' stmt ELSE stmt
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 17
+    '-'       przesunięcie, i przejście do stanu 8
+    '('       przesunięcie, i przejście do stanu 10
+
+    expr  przejście do stanu 37
+
+
+State 17
+
+   14 expr: VARIABLE .
+
+    $domyślnie  redukcja przy użyciu reguły 14 (expr)
+
+
+State 18
+
+    5 stmt: PRINT expr . ';'
+   16 expr: expr . '+' expr
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   19     | expr . '^' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    '>'  przesunięcie, i przejście do stanu 23
+    '<'  przesunięcie, i przejście do stanu 24
+    NE   przesunięcie, i przejście do stanu 25
+    EQ   przesunięcie, i przejście do stanu 26
+    LE   przesunięcie, i przejście do stanu 27
+    GE   przesunięcie, i przejście do stanu 28
+    '+'  przesunięcie, i przejście do stanu 29
+    '-'  przesunięcie, i przejście do stanu 30
+    '*'  przesunięcie, i przejście do stanu 31
+    '/'  przesunięcie, i przejście do stanu 32
+    '^'  przesunięcie, i przejście do stanu 33
+    ';'  przesunięcie, i przejście do stanu 38
+
+
+State 19
+
+   15 expr: '-' expr .
+   16     | expr . '+' expr
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   19     | expr . '^' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    $domyślnie  redukcja przy użyciu reguły 15 (expr)
+
+
+State 20
+
+   16 expr: expr . '+' expr
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   19     | expr . '^' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+   27     | '(' expr . ')'
+
+    '>'  przesunięcie, i przejście do stanu 23
+    '<'  przesunięcie, i przejście do stanu 24
+    NE   przesunięcie, i przejście do stanu 25
+    EQ   przesunięcie, i przejście do stanu 26
+    LE   przesunięcie, i przejście do stanu 27
+    GE   przesunięcie, i przejście do stanu 28
+    '+'  przesunięcie, i przejście do stanu 29
+    '-'  przesunięcie, i przejście do stanu 30
+    '*'  przesunięcie, i przejście do stanu 31
+    '/'  przesunięcie, i przejście do stanu 32
+    '^'  przesunięcie, i przejście do stanu 33
+    ')'  przesunięcie, i przejście do stanu 39
+
+
+State 21
+
+   11 stmt_list: stmt .
+
+    $domyślnie  redukcja przy użyciu reguły 11 (stmt_list)
+
+
+State 22
+
+   10 stmt: '{' stmt_list . '}'
+   12 stmt_list: stmt_list . stmt
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 4
+    WHILE     przesunięcie, i przejście do stanu 5
+    IF        przesunięcie, i przejście do stanu 6
+    PRINT     przesunięcie, i przejście do stanu 7
+    '-'       przesunięcie, i przejście do stanu 8
+    ';'       przesunięcie, i przejście do stanu 9
+    '('       przesunięcie, i przejście do stanu 10
+    '{'       przesunięcie, i przejście do stanu 11
+    '}'       przesunięcie, i przejście do stanu 40
+
+    stmt  przejście do stanu 41
+    expr  przejście do stanu 13
+
+
+State 23
+
+   22 expr: expr '>' . expr
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 17
+    '-'       przesunięcie, i przejście do stanu 8
+    '('       przesunięcie, i przejście do stanu 10
+
+    expr  przejście do stanu 42
+
+
+State 24
+
+   21 expr: expr '<' . expr
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 17
+    '-'       przesunięcie, i przejście do stanu 8
+    '('       przesunięcie, i przejście do stanu 10
+
+    expr  przejście do stanu 43
+
+
+State 25
+
+   25 expr: expr NE . expr
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 17
+    '-'       przesunięcie, i przejście do stanu 8
+    '('       przesunięcie, i przejście do stanu 10
+
+    expr  przejście do stanu 44
+
+
+State 26
+
+   26 expr: expr EQ . expr
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 17
+    '-'       przesunięcie, i przejście do stanu 8
+    '('       przesunięcie, i przejście do stanu 10
+
+    expr  przejście do stanu 45
+
+
+State 27
+
+   24 expr: expr LE . expr
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 17
+    '-'       przesunięcie, i przejście do stanu 8
+    '('       przesunięcie, i przejście do stanu 10
+
+    expr  przejście do stanu 46
+
+
+State 28
+
+   23 expr: expr GE . expr
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 17
+    '-'       przesunięcie, i przejście do stanu 8
+    '('       przesunięcie, i przejście do stanu 10
+
+    expr  przejście do stanu 47
+
+
+State 29
+
+   16 expr: expr '+' . expr
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 17
+    '-'       przesunięcie, i przejście do stanu 8
+    '('       przesunięcie, i przejście do stanu 10
+
+    expr  przejście do stanu 48
+
+
+State 30
+
+   17 expr: expr '-' . expr
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 17
+    '-'       przesunięcie, i przejście do stanu 8
+    '('       przesunięcie, i przejście do stanu 10
+
+    expr  przejście do stanu 49
+
+
+State 31
+
+   18 expr: expr '*' . expr
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 17
+    '-'       przesunięcie, i przejście do stanu 8
+    '('       przesunięcie, i przejście do stanu 10
+
+    expr  przejście do stanu 50
+
+
+State 32
+
+   20 expr: expr '/' . expr
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 17
+    '-'       przesunięcie, i przejście do stanu 8
+    '('       przesunięcie, i przejście do stanu 10
+
+    expr  przejście do stanu 51
+
+
+State 33
+
+   19 expr: expr '^' . expr
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 17
+    '-'       przesunięcie, i przejście do stanu 8
+    '('       przesunięcie, i przejście do stanu 10
+
+    expr  przejście do stanu 52
+
+
+State 34
+
+    4 stmt: expr ';' .
+
+    $domyślnie  redukcja przy użyciu reguły 4 (stmt)
+
+
+State 35
+
+    6 stmt: VARIABLE '=' expr . ';'
+   16 expr: expr . '+' expr
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   19     | expr . '^' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    '>'  przesunięcie, i przejście do stanu 23
+    '<'  przesunięcie, i przejście do stanu 24
+    NE   przesunięcie, i przejście do stanu 25
+    EQ   przesunięcie, i przejście do stanu 26
+    LE   przesunięcie, i przejście do stanu 27
+    GE   przesunięcie, i przejście do stanu 28
+    '+'  przesunięcie, i przejście do stanu 29
+    '-'  przesunięcie, i przejście do stanu 30
+    '*'  przesunięcie, i przejście do stanu 31
+    '/'  przesunięcie, i przejście do stanu 32
+    '^'  przesunięcie, i przejście do stanu 33
+    ';'  przesunięcie, i przejście do stanu 53
+
+
+State 36
+
+    7 stmt: WHILE '(' expr . ')' stmt
+   16 expr: expr . '+' expr
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   19     | expr . '^' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    '>'  przesunięcie, i przejście do stanu 23
+    '<'  przesunięcie, i przejście do stanu 24
+    NE   przesunięcie, i przejście do stanu 25
+    EQ   przesunięcie, i przejście do stanu 26
+    LE   przesunięcie, i przejście do stanu 27
+    GE   przesunięcie, i przejście do stanu 28
+    '+'  przesunięcie, i przejście do stanu 29
+    '-'  przesunięcie, i przejście do stanu 30
+    '*'  przesunięcie, i przejście do stanu 31
+    '/'  przesunięcie, i przejście do stanu 32
+    '^'  przesunięcie, i przejście do stanu 33
+    ')'  przesunięcie, i przejście do stanu 54
+
+
+State 37
+
+    8 stmt: IF '(' expr . ')' stmt
+    9     | IF '(' expr . ')' stmt ELSE stmt
+   16 expr: expr . '+' expr
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   19     | expr . '^' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    '>'  przesunięcie, i przejście do stanu 23
+    '<'  przesunięcie, i przejście do stanu 24
+    NE   przesunięcie, i przejście do stanu 25
+    EQ   przesunięcie, i przejście do stanu 26
+    LE   przesunięcie, i przejście do stanu 27
+    GE   przesunięcie, i przejście do stanu 28
+    '+'  przesunięcie, i przejście do stanu 29
+    '-'  przesunięcie, i przejście do stanu 30
+    '*'  przesunięcie, i przejście do stanu 31
+    '/'  przesunięcie, i przejście do stanu 32
+    '^'  przesunięcie, i przejście do stanu 33
+    ')'  przesunięcie, i przejście do stanu 55
+
+
+State 38
+
+    5 stmt: PRINT expr ';' .
+
+    $domyślnie  redukcja przy użyciu reguły 5 (stmt)
+
+
+State 39
+
+   27 expr: '(' expr ')' .
+
+    $domyślnie  redukcja przy użyciu reguły 27 (expr)
+
+
+State 40
+
+   10 stmt: '{' stmt_list '}' .
+
+    $domyślnie  redukcja przy użyciu reguły 10 (stmt)
+
+
+State 41
+
+   12 stmt_list: stmt_list stmt .
+
+    $domyślnie  redukcja przy użyciu reguły 12 (stmt_list)
+
+
+State 42
+
+   16 expr: expr . '+' expr
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   19     | expr . '^' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   22     | expr '>' expr .
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    '+'  przesunięcie, i przejście do stanu 29
+    '-'  przesunięcie, i przejście do stanu 30
+    '*'  przesunięcie, i przejście do stanu 31
+    '/'  przesunięcie, i przejście do stanu 32
+    '^'  przesunięcie, i przejście do stanu 33
+
+    $domyślnie  redukcja przy użyciu reguły 22 (expr)
+
+
+State 43
+
+   16 expr: expr . '+' expr
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   19     | expr . '^' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   21     | expr '<' expr .
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    '+'  przesunięcie, i przejście do stanu 29
+    '-'  przesunięcie, i przejście do stanu 30
+    '*'  przesunięcie, i przejście do stanu 31
+    '/'  przesunięcie, i przejście do stanu 32
+    '^'  przesunięcie, i przejście do stanu 33
+
+    $domyślnie  redukcja przy użyciu reguły 21 (expr)
+
+
+State 44
+
+   16 expr: expr . '+' expr
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   19     | expr . '^' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   25     | expr NE expr .
+   26     | expr . EQ expr
+
+    '+'  przesunięcie, i przejście do stanu 29
+    '-'  przesunięcie, i przejście do stanu 30
+    '*'  przesunięcie, i przejście do stanu 31
+    '/'  przesunięcie, i przejście do stanu 32
+    '^'  przesunięcie, i przejście do stanu 33
+
+    $domyślnie  redukcja przy użyciu reguły 25 (expr)
+
+
+State 45
+
+   16 expr: expr . '+' expr
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   19     | expr . '^' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+   26     | expr EQ expr .
+
+    '+'  przesunięcie, i przejście do stanu 29
+    '-'  przesunięcie, i przejście do stanu 30
+    '*'  przesunięcie, i przejście do stanu 31
+    '/'  przesunięcie, i przejście do stanu 32
+    '^'  przesunięcie, i przejście do stanu 33
+
+    $domyślnie  redukcja przy użyciu reguły 26 (expr)
+
+
+State 46
+
+   16 expr: expr . '+' expr
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   19     | expr . '^' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   24     | expr LE expr .
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    '+'  przesunięcie, i przejście do stanu 29
+    '-'  przesunięcie, i przejście do stanu 30
+    '*'  przesunięcie, i przejście do stanu 31
+    '/'  przesunięcie, i przejście do stanu 32
+    '^'  przesunięcie, i przejście do stanu 33
+
+    $domyślnie  redukcja przy użyciu reguły 24 (expr)
+
+
+State 47
+
+   16 expr: expr . '+' expr
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   19     | expr . '^' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   23     | expr GE expr .
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    '+'  przesunięcie, i przejście do stanu 29
+    '-'  przesunięcie, i przejście do stanu 30
+    '*'  przesunięcie, i przejście do stanu 31
+    '/'  przesunięcie, i przejście do stanu 32
+    '^'  przesunięcie, i przejście do stanu 33
+
+    $domyślnie  redukcja przy użyciu reguły 23 (expr)
+
+
+State 48
+
+   16 expr: expr . '+' expr
+   16     | expr '+' expr .
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   19     | expr . '^' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    '*'  przesunięcie, i przejście do stanu 31
+    '/'  przesunięcie, i przejście do stanu 32
+    '^'  przesunięcie, i przejście do stanu 33
+
+    $domyślnie  redukcja przy użyciu reguły 16 (expr)
+
+
+State 49
+
+   16 expr: expr . '+' expr
+   17     | expr . '-' expr
+   17     | expr '-' expr .
+   18     | expr . '*' expr
+   19     | expr . '^' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    '*'  przesunięcie, i przejście do stanu 31
+    '/'  przesunięcie, i przejście do stanu 32
+    '^'  przesunięcie, i przejście do stanu 33
+
+    $domyślnie  redukcja przy użyciu reguły 17 (expr)
+
+
+State 50
+
+   16 expr: expr . '+' expr
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   18     | expr '*' expr .
+   19     | expr . '^' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    '^'  przesunięcie, i przejście do stanu 33
+
+    $domyślnie  redukcja przy użyciu reguły 18 (expr)
+
+
+State 51
+
+   16 expr: expr . '+' expr
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   19     | expr . '^' expr
+   20     | expr . '/' expr
+   20     | expr '/' expr .
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    '^'  przesunięcie, i przejście do stanu 33
+
+    $domyślnie  redukcja przy użyciu reguły 20 (expr)
+
+
+State 52
+
+   16 expr: expr . '+' expr
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   19     | expr . '^' expr
+   19     | expr '^' expr .
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    $domyślnie  redukcja przy użyciu reguły 19 (expr)
+
+
+State 53
+
+    6 stmt: VARIABLE '=' expr ';' .
+
+    $domyślnie  redukcja przy użyciu reguły 6 (stmt)
+
+
+State 54
+
+    7 stmt: WHILE '(' expr ')' . stmt
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 4
+    WHILE     przesunięcie, i przejście do stanu 5
+    IF        przesunięcie, i przejście do stanu 6
+    PRINT     przesunięcie, i przejście do stanu 7
+    '-'       przesunięcie, i przejście do stanu 8
+    ';'       przesunięcie, i przejście do stanu 9
+    '('       przesunięcie, i przejście do stanu 10
+    '{'       przesunięcie, i przejście do stanu 11
+
+    stmt  przejście do stanu 56
+    expr  przejście do stanu 13
+
+
+State 55
+
+    8 stmt: IF '(' expr ')' . stmt
+    9     | IF '(' expr ')' . stmt ELSE stmt
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 4
+    WHILE     przesunięcie, i przejście do stanu 5
+    IF        przesunięcie, i przejście do stanu 6
+    PRINT     przesunięcie, i przejście do stanu 7
+    '-'       przesunięcie, i przejście do stanu 8
+    ';'       przesunięcie, i przejście do stanu 9
+    '('       przesunięcie, i przejście do stanu 10
+    '{'       przesunięcie, i przejście do stanu 11
+
+    stmt  przejście do stanu 57
+    expr  przejście do stanu 13
+
+
+State 56
+
+    7 stmt: WHILE '(' expr ')' stmt .
+
+    $domyślnie  redukcja przy użyciu reguły 7 (stmt)
+
+
+State 57
+
+    8 stmt: IF '(' expr ')' stmt .
+    9     | IF '(' expr ')' stmt . ELSE stmt
+
+    ELSE  przesunięcie, i przejście do stanu 58
+
+    $domyślnie  redukcja przy użyciu reguły 8 (stmt)
+
+
+State 58
+
+    9 stmt: IF '(' expr ')' stmt ELSE . stmt
+
+    INTEGER   przesunięcie, i przejście do stanu 3
+    VARIABLE  przesunięcie, i przejście do stanu 4
+    WHILE     przesunięcie, i przejście do stanu 5
+    IF        przesunięcie, i przejście do stanu 6
+    PRINT     przesunięcie, i przejście do stanu 7
+    '-'       przesunięcie, i przejście do stanu 8
+    ';'       przesunięcie, i przejście do stanu 9
+    '('       przesunięcie, i przejście do stanu 10
+    '{'       przesunięcie, i przejście do stanu 11
+
+    stmt  przejście do stanu 59
+    expr  przejście do stanu 13
+
+
+State 59
+
+    9 stmt: IF '(' expr ')' stmt ELSE stmt .
+
+    $domyślnie  redukcja przy użyciu reguły 9 (stmt)

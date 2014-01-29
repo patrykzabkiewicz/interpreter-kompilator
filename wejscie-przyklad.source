@@ -1,0 +1,25 @@
+n= 0;
+
+a= 7;
+b= 3;
+
+print n;
+print a;
+print b;
+
+if( a >= b ) {
+	t= a;
+	a= b;
+	b= t;
+} else {
+	a= b*b;
+	b= a*a;
+}
+
+print a;
+print b;
+
+while( n<a+b ) {
+	print n;
+	n= n+1;
+}
