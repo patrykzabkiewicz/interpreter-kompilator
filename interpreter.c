@@ -49,6 +49,20 @@ ex(nodeType * p)
 		case '=':
 			return sym[p->value.opr.op[0]->value.id.i] =
 				ex(p->value.opr.op[1]);
+		case DECREMENT:
+			return sym[p->value.opr.op[0]->value.id.i] =
+				ex(p->value.opr.op[0])-1;
+
+		case INCREMENT:
+			return sym[p->value.opr.op[0]->value.id.i] =
+				ex(p->value.opr.op[0])+1;
+
+		case FACTORIAL:
+			{
+			wynik=1;
+			for(i=1; i <= ex(p->value.opr.op[0]); i++) wynik *= i;
+			return wynik;
+			}
 
 		case UMINUS:
 			return -ex(p->value.opr.op[0]);

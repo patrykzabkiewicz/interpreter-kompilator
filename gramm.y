@@ -29,7 +29,9 @@ int		sym['z'-'a'+1];
 %left '+' '-'
 %left '*' '/' 
 %left '^'
-%nonassoc UMINUS
+%nonassoc UMINUS 
+%right FACTORIAL
+%right INCREMENT DECREMENT
 
 %type<nPtr> stmt expr stmt_list
 
@@ -69,7 +71,13 @@ expr:
 	|
 	VARIABLE			{ $$= id( $1 ); }
 	|
+	expr '!' %prec FACTORIAL	{ $$= opr( FACTORIAL, 1, $1); }
+	|
 	'-' expr %prec UMINUS		{ $$= opr( UMINUS, 1, $2 ); }
+	|
+	expr '+' '+' %prec INCREMENT	{ $$= opr( INCREMENT, 1, $1); }
+	|
+	expr '-' '-' %prec DECREMENT	{ $$= opr( DECREMENT, 1, $1); }
 	|
 	expr '+' expr			{ $$= opr( '+', 2, $1, $3 ); }
 	|
