@@ -49,13 +49,31 @@ ex(nodeType * p)
 		case '=':
 			return sym[p->value.opr.op[0]->value.id.i] =
 				ex(p->value.opr.op[1]);
-		case DECREMENT:
-			return sym[p->value.opr.op[0]->value.id.i] =
-				ex(p->value.opr.op[0])-1;
 
-		case INCREMENT:
-			return sym[p->value.opr.op[0]->value.id.i] =
-				ex(p->value.opr.op[0])+1;
+                case PREDEC:
+                        return sym[p->value.opr.op[0]->value.id.i] =
+                                ex(p->value.opr.op[0])-1;
+
+                case PREINC:
+                        return sym[p->value.opr.op[0]->value.id.i] =
+                                ex(p->value.opr.op[0])+1;
+
+
+		case POSTDEC:
+			{
+			wynik = ex(p->value.opr.op[0]);
+			sym[p->value.opr.op[0]->value.id.i] =
+                                ex(p->value.opr.op[0])-1;
+			return wynik;
+			}
+
+		case POSTINC:
+			{
+			wynik = ex(p->value.opr.op[0]);
+                        sym[p->value.opr.op[0]->value.id.i] =
+                                ex(p->value.opr.op[0])+1;
+                        return wynik;
+			}
 
 		case FACTORIAL:
 			{

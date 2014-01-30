@@ -60,11 +60,11 @@ ex(nodeType * p)
 			ex(p->value.opr.op[1]);
 			printf("\tpop\t%c\n", p->value.opr.op[0]->value.id.i + 'a');
 			break;
-		case INCREMENT:
+		case POSTINC:
 			ex(p->value.opr.op[0]);
 			printf("\tinc\n");
 			break;
-		case DECREMENT:
+		case POSTDEC:
 			ex(p->value.opr.op[0]);
 			printf("\tdec\n");
 			break;
