@@ -62,11 +62,43 @@ ex(nodeType * p)
 			break;
 		case POSTINC:
 			ex(p->value.opr.op[0]);
-			printf("\tinc\n");
+			printf("\tpush\t1\n");
+			printf("\tadd\n");
 			break;
 		case POSTDEC:
 			ex(p->value.opr.op[0]);
-			printf("\tdec\n");
+			printf("\tpush\t1\n");
+			printf("\tsub\n");
+			break;
+		case PREINC:
+			ex(p->value.opr.op[0]);
+			printf("\tpush\t1\n");
+			printf("\tadd\n");
+			break;
+		case PREDEC:
+			ex(p->value.opr.op[0]);
+			printf("\tpush\t1\n");
+			printf("\tsub\n");
+			break;
+		case ASPLUS:
+			ex(p->value.opr.op[0]);
+			ex(p->value.opr.op[1]);
+				printf("\tadd\n");
+			break;
+		case ASMINUS:
+			ex(p->value.opr.op[0]);
+			ex(p->value.opr.op[1]);
+				printf("\tsub\n");
+			break;
+		case ASMULTI:
+			ex(p->value.opr.op[0]);
+			ex(p->value.opr.op[1]);
+				printf("\tmul\n");
+			break;
+		case ASDEVIDE:
+			ex(p->value.opr.op[0]);
+			ex(p->value.opr.op[1]);
+				printf("\tdiv\n");
 			break;
 
 		case FACTORIAL:

@@ -29,10 +29,11 @@ int		sym['z'-'a'+1];
 %left '+' '-'
 %left '*' '/' 
 %left '^'
+%left ASPLUS ASMINUS ASMULTI ASDEVIDE
 %nonassoc UMINUS 
-%right FACTORIAL
-%right POSTINC POSTDEC
-%right PREINC PREDEC
+%left FACTORIAL
+%left POSTINC POSTDEC
+%left PREINC PREDEC
 
 %type<nPtr> stmt expr stmt_list
 
@@ -75,6 +76,14 @@ expr:
 	expr '!' %prec FACTORIAL	{ $$= opr( FACTORIAL, 1, $1); }
 	|
 	'-' expr %prec UMINUS		{ $$= opr( UMINUS, 1, $2 ); }
+	|
+	expr '+' '=' expr %prec ASPLUS	{ $$= opr( ASPLUS, 2, $1, $4 ); }
+	|
+	expr '-' '=' expr %prec ASMINUS	{ $$= opr( ASMINUS, 2, $1, $4 ); }
+	|
+	expr '*' '=' expr %prec ASMULTI	{ $$= opr( ASMULTI, 2, $1, $4 ); }
+	|
+	expr '/' '=' expr %prec ASDEVIDE	{ $$= opr( ASDEVIDE, 2, $1, $4 ); }
 	|
 	expr '+' '+' %prec POSTINC	{ $$= opr( POSTINC, 1, $1); }
 	|

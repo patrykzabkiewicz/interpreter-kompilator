@@ -57,7 +57,21 @@ ex(nodeType * p)
                 case PREINC:
                         return sym[p->value.opr.op[0]->value.id.i] =
                                 ex(p->value.opr.op[0])+1;
+		case ASPLUS:
+			return sym[p->value.opr.op[0]->value.id.i] +=
+				ex(p->value.opr.op[1]);
 
+		case ASMINUS:
+			return sym[p->value.opr.op[0]->value.id.i] -=
+                                ex(p->value.opr.op[1]);
+
+		case ASMULTI:
+			return sym[p->value.opr.op[0]->value.id.i] *=
+                                ex(p->value.opr.op[1]);
+
+		case ASDEVIDE:
+			return sym[p->value.opr.op[0]->value.id.i] /=
+                                ex(p->value.opr.op[1]);
 
 		case POSTDEC:
 			{
